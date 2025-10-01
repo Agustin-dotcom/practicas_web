@@ -19,6 +19,42 @@ const products: Product[] = [
     img: 'https://stockimages.tiendasd1.com/stockimages.tiendasd1.com/kobastockimages/IMAGENES/12000117/brevas-enteras-en-almibar-ainoa-560-g-x-1-und-01.png',
     description: '320 g (g a $31.22)',
   },
+  {
+    name: 'RABANO ROJO 250 gr',
+    price: 4620,
+    img: 'https://exitocol.vtexassets.com/arquivos/ids/29483581-300-auto/Rabano-Rojo-X-250gr-711587_a.jpg?v=638895595324730000',
+    description: 'Gr a $18'
+  },
+  {
+    name: 'Banano 1 und',
+    price: 518,
+    img: 'https://exitocol.vtexassets.com/arquivos/ids/25416111-300-auto/Banano-Unidad-639180_a.jpg?v=638657245747470000',
+    description: 'Und a $518'
+  },
+  {
+    name: 'Platano Maduro Und 1 und',
+    price: 770,
+    img: 'https://exitocol.vtexassets.com/arquivos/ids/25416997-300-auto/PLATANO-MADURO-UNIDAD-1601907_a.jpg?v=638657255538300000',
+    description: 'Und a $770'
+  },
+  {
+    name: 'Papa Criolla EXITO MARCA PROPIA 1000  gr',
+    price:6510,
+    img: 'https://exitocol.vtexassets.com/arquivos/ids/24439523-300-auto/Papa-Criolla-1000g-1790_a.jpg?v=638609237962300000',
+    description:'Gr a $6'
+  },
+  {
+    name: 'Granadilla 1 und',
+    price:1470,
+    img: 'https://exitocol.vtexassets.com/arquivos/ids/25416195-300-auto/GRANADILLA-UNIDAD-639420_a.jpg?v=638657246251730000',
+    description: 'Und a $1470'
+  },
+  {
+    name: 'Papaya Und 1 und',
+    price: 7028,
+    img: 'https://exitocol.vtexassets.com/arquivos/ids/25416195-300-auto/GRANADILLA-UNIDAD-639420_a.jpg?v=638657246251730000',
+    description: 'Und a $7028'
+  }
 ];
 
 async function seed() {
@@ -56,7 +92,28 @@ async function seed() {
     ],
     orders: [],
   };
-  const res = await Users.create(user);
+  await Users.create(user);
+  const user1: User = {
+    email: 'agustin@gmail.com',
+    password: '1234',
+    name: 'Agustín',
+    surname: 'Prieto',
+    address: '123 Main St, 12345 London, United Kingdom',
+    birthdate: new Date('2004-06-01'),
+    cartItems: [
+      {
+        product: insertedProducts[0]._id,
+        qty: 8,
+      },
+      {
+        product: insertedProducts[1]._id,
+        qty: 25,
+      },
+    ],
+    orders: [],
+  };
+  await Users.create(user1);
+  
   //console.log(JSON.stringify(res, null, 2));
 
 
