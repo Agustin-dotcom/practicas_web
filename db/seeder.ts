@@ -8,16 +8,16 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 const products: Product[] = [
   {
-    name: 'Earthen Bottle',
-    price: 39.95,
-    img: 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg',
-    description: 'What a bottle!',
+    name: 'Tocineta Ahumada Viandé',
+    price: 6600,
+    img: 'https://stockimages.tiendasd1.com/stockimages.tiendasd1.com/kobastockimages/IMAGENES/12000078/tocineta-ahumada-viande-150-grs-01.png',
+    description: '150g (g a $44)',
   },
   {
-    name: 'Nomad Tumbler',
-    price: 39.95,
-    img: 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg',
-    description: 'Yet another item',
+    name: 'Brevas Enteras en Almibar Ainoa',
+    price: 9990,
+    img: 'https://stockimages.tiendasd1.com/stockimages.tiendasd1.com/kobastockimages/IMAGENES/12000117/brevas-enteras-en-almibar-ainoa-560-g-x-1-und-01.png',
+    description: '320 g (g a $31.22)',
   },
 ];
 
