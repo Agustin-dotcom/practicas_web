@@ -1,8 +1,12 @@
 // db/seeder.ts
 // Run: npm run seed   (with "seed": "tsx db/seeder.ts")
 
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+
+// Load .env.local first, then .env (Next.js convention)
+dotenv.config({ path: '.env.local' });
+dotenv.config();
 
 // adjust this import if your file lives elsewhere:
 // if you have src/lib/mongoose.js, keep the alias:
