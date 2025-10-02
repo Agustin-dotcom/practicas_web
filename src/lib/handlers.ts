@@ -16,6 +16,12 @@ export interface GetUserResponse
 export interface CreateUserResponse {
   _id: Types.ObjectId
 }
+export interface GetCartItemsResponse{
+cartItems: {
+    product:Types.ObjectId ;
+    qty: number;
+  }[];
+}
 export async function getProducts(): Promise<GetProductsResponse> {
   await connect()
 
@@ -77,4 +83,18 @@ export async function getUser(
   const user = await Users.findById(userId, userProjection)
 
   return user
+}
+
+export async function getCartItems(
+  userId: Types.ObjectId | string
+): Promise<GetCartItemsResponse>{
+  await connect();
+
+  const user = await Users.findById(userId)
+    .populate("cartItems.product")
+    .select("cartItems");
+
+  return {
+    cartItems: user?.cartItems ?? [],
+  };
 }

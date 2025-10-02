@@ -112,9 +112,8 @@ async function seed() {
     ],
     orders: [],
   };
-  await Users.create(user1);
-  
-  //console.log(JSON.stringify(res, null, 2));
+  const res = await Users.create(user1);
+  console.log(JSON.stringify(res, null, 2));
 
 
   const userProjection = {
