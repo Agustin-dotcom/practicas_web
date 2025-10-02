@@ -9,6 +9,9 @@ export interface ErrorResponse {
 export interface GetProductsResponse {
   products: (Product & { _id: Types.ObjectId })[]
 }
+export interface GetProductResponse {
+  product: (Product & { _id: Types.ObjectId })
+}
 export interface GetUserResponse
   extends Pick<User, 'email' | 'name' | 'surname' | 'address' | 'birthdate'> {
   _id: Types.ObjectId
@@ -18,6 +21,12 @@ export interface CreateUserResponse {
 }
 export interface GetCartItemsResponse{
 cartItems: {
+    product:Types.ObjectId ;
+    qty: number;
+  }[];
+}
+export interface PutNumberOfItemsResponse{
+  cartItems: {
     product:Types.ObjectId ;
     qty: number;
   }[];
@@ -85,6 +94,29 @@ export async function getUser(
   return user
 }
 
+export async function productExists(
+  productId: Types.ObjectId | string
+): Promise<boolean> {
+  
+  const product = await Products.exists({_id:productId})
+
+  return !!product
+}
+
+export async function isProductInCart(
+  userId: Types.ObjectId | string,
+  productId: Types.ObjectId | string
+): Promise<boolean> {
+  
+
+  const user = await Users.findOne({
+    _id: userId,
+    "cartItems.product": productId
+  }).select("_id");
+
+  return !!user
+}
+
 export async function getCartItems(
   userId: Types.ObjectId | string
 ): Promise<GetCartItemsResponse>{
@@ -97,4 +129,41 @@ export async function getCartItems(
   return {
     cartItems: user?.cartItems ?? [],
   };
+}
+
+
+export async function putNumberOfItems(
+  userId: Types.ObjectId | string,
+  productId: Types.ObjectId | string,
+  quantity: number
+):Promise<PutNumberOfItemsResponse>{
+  // Paso 1: buscamos al usuario
+  const user = await Users.findById(userId);
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  // Paso 2: buscamos si ya tiene el producto
+  interface CartItem {
+    product: Types.ObjectId;
+    qty: number;
+  }
+  const existingItem = user.cartItems.find(
+    (item: CartItem) => item.product.toString() === productId.toString()
+  );
+
+  if (existingItem) {
+    // ✅ si existe, actualizamos la cantidad
+    existingItem.qty = quantity;
+  } else {
+    // ➕ si no existe, lo agregamos
+    user.cartItems.push({
+      product: new Types.ObjectId(productId),
+      qty
+    });
+  }
+
+  await user.save();
+  return user.cartItems;
 }
