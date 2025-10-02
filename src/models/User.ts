@@ -4,7 +4,19 @@ import mongoose, { Schema, Types } from 'mongoose';
     product: Types.ObjectId;
     qty: number;
   }
-  
+   export interface OrderItem {
+    order: Types.ObjectId;
+    qty: number;
+    price: number;
+  }
+  export interface Order {
+      date: Date;
+      address: string;
+      cardHolder: string;
+      cardNumber: string;
+      user: Types.ObjectId;
+      orderItems: OrderItem[];
+    }
   export interface User {
     email: string;
     password: string;

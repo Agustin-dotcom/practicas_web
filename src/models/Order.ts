@@ -11,10 +11,8 @@ import mongoose, { Schema, Types } from 'mongoose';
     address: string;
     cardHolder: string;
     cardNumber: string;
-    user: Types.ObjectId;
     orderItems: OrderItem[];
   }
-  
   const OrderSchema = new Schema<Order>({
     date: {
       type: Date,
@@ -32,6 +30,26 @@ import mongoose, { Schema, Types } from 'mongoose';
       type: String,
       required: true,
     },
+    orderItems:[
+      {
+      _id:false,
+      product: {
+        type: Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true,
+      },
+      qty: {
+        type: Number,
+        required: true,
+        min: 1,
+      },
+      price: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
+  
   });
 
   export default mongoose.models.Order as mongoose.Model<Order> || mongoose.model<Order>('Order', OrderSchema);
