@@ -14,7 +14,7 @@ export async function PUT(
   }
 ): Promise<NextResponse<GetCartItemsResponse> | NextResponse<ErrorResponse>> {
   const body = await request.json();
-  console.log('user.Id -->'+params.userId);
+  console.log('user.Id -->'+params.userId); //cambio
   console.log('product.Id -->'+params.productId);
   if (!Types.ObjectId.isValid(params.userId) ||
   !Types.ObjectId.isValid(params.productId) ||
