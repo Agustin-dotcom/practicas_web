@@ -1,8 +1,8 @@
 import Products, { Product } from '@/models/Product';
 import connect from '@/lib/mongoose';
 import { Types } from 'mongoose';
-import Users, { User } from '@/models/User';
-import Orders from '@/models/Order';
+import Users, { User,CartItem } from '@/models/User';
+import Orders, { OrderItem } from '@/models/Order';
 
 export interface ErrorResponse {
   error: string
@@ -11,9 +11,9 @@ export interface ErrorResponse {
 export interface GetProductsResponse {
   products: (Product & { _id: Types.ObjectId })[]
 }
-export interface GetProductResponse {
+/* export interface GetProductResponse {
   product: (Product & { _id: Types.ObjectId })
-}
+} */
 export interface GetUserResponse
   extends Pick<User, 'email' | 'name' | 'surname' | 'address' | 'birthdate'> {
   _id: Types.ObjectId
@@ -21,32 +21,20 @@ export interface GetUserResponse
 export interface CreateUserResponse {
   _id: Types.ObjectId
 }
-export interface GetProductResponse {
+ export interface GetProductResponse {
   _id: Types.ObjectId;
   name: string;
   description: string;
   img: string;
   price: number;
-}
+} 
 export interface GetCartResponse {
-  cartItems: Array<{
-    product: Product & { _id: Types.ObjectId };
-    qty: number;
-  }>;
+  cartItems: CartItem[]
+  
 }
 export interface GetOrdersResponse {
-  orders: Array<{
-    _id: Types.ObjectId;
-    address: string;
-    date: Date;
-    cardHolder: string;
-    cardNumber: string;
-    orderItems: Array<{
-      product: Types.ObjectId;
-      qty: number;
-      price: number;
-    }>;
-  }>;
+    orders: Types.ObjectId[]
+  
 }
 export interface GetOrderResponse {
   _id: Types.ObjectId;
@@ -54,14 +42,13 @@ export interface GetOrderResponse {
   date: Date;
   cardHolder: string;
   cardNumber: string;
-  orderItems: Array<{
-    product: Product & { _id: Types.ObjectId };
-    qty: number;
-    price: number;
-  }>;
+  orderItems: OrderItem[]
 }
 export interface CreateOrderResponse {
-  _id: Types.ObjectId;
+  _id: Types.ObjectId | {
+  product: Types.ObjectId;
+  qty: number;
+  price:number;}
 }
 export async function getProducts(): Promise<GetProductsResponse> {
   await connect()
@@ -156,7 +143,7 @@ export async function getUserCart(
   }
 
   return {
-    cartItems: user.cartItems as any, // populated products
+    cartItems: user.cartItems // populated products
   };
 }
 
@@ -165,7 +152,7 @@ export async function updateCartItem(
   userId: Types.ObjectId | string,
   productId: Types.ObjectId | string,
   qty: number
-): Promise<{ cartItems: any[]; isNew: boolean } | null> {
+): Promise<{ cartItems: CartItem[]; isNew: boolean } | null> {
   await connect();
 
   // Verify product exists
@@ -208,7 +195,7 @@ export async function updateCartItem(
   });
 
   return {
-    cartItems: updatedUser!.cartItems as any,
+    cartItems: updatedUser!.cartItems,
     isNew,
   };
 }
@@ -246,7 +233,7 @@ export async function deleteCartItem(
   });
 
   return {
-    cartItems: updatedUser!.cartItems as any,
+    cartItems: updatedUser!.cartItems,
   };
 }
 
@@ -266,7 +253,7 @@ export async function getUserOrders(
   }
 
   return {
-    orders: user.orders as any, // populated orders
+    orders: user.orders, // populated orders
   };
 }
 
@@ -295,11 +282,15 @@ export async function createOrder(
 
   // Transform cart items to order items (with price snapshot)
   const orderItems = user.cartItems.map((cartItem) => {
-    const product = cartItem.product as any; // populated
+    const product = cartItem.product; // populated
+    const productProjection = {
+      price:true
+    }
+    const pr = Products.findById(cartItem.product,productProjection)
     return {
       product: product._id,
       qty: cartItem.qty,
-      price: product.price, // snapshot current price
+      price: pr, // snapshot current price
     };
   });
 
@@ -357,5 +348,5 @@ export async function getUserOrder(
     return null;
   }
 
-  return order as any; // with populated products
+  return order; // with populated products
 }
