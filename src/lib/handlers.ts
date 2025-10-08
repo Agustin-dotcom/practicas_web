@@ -283,14 +283,14 @@ export async function createOrder(
   // Transform cart items to order items (with price snapshot)
   const orderItems = user.cartItems.map((cartItem) => {
     const product = cartItem.product; // populated
-    const productProjection = {
+    /* const productProjection = {
       price:true
     }
-    const pr = Products.findById(cartItem.product,productProjection)
+    const pr = await Products.findById(cartItem.product,productProjection) */
     return {
       product: product._id,
       qty: cartItem.qty,
-      price: pr, // snapshot current price
+      price: product.price, // snapshot current price
     };
   });
 

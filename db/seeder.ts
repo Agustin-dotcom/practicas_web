@@ -1,5 +1,6 @@
 import Products, { Product } from '@/models/Product';
 import Users, { User } from '@/models/User';
+import Orders, {Order} from '@/models/Order'
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
@@ -71,8 +72,64 @@ async function seed() {
 
   //await conn.connection.db.dropDatabase();
   await conn.connection.db?.dropDatabase();
-
   const insertedProducts = await Products.insertMany(products);
+  const orders: Order[] = [
+    {
+      address: "direccion",
+      cardHolder: "titular",
+      cardNumber:"numero de tarjeta",
+      date: new Date(),
+      orderItems:
+      [
+        {
+          product:insertedProducts[0]._id,
+          qty:2,
+          price:insertedProducts[0].price
+        },
+        {
+          product:insertedProducts[1]._id,
+          qty:2,
+          price:insertedProducts[1].price
+        },
+        {
+          product:insertedProducts[2]._id,
+          qty:3,
+          price:insertedProducts[2].price
+        }
+      ]
+    },
+    {
+      address: "direccion1",
+      cardHolder: "titular1",
+      cardNumber:"numero de tarjeta1",
+      date: new Date(),
+      orderItems:
+      [
+        {
+          product:insertedProducts[5]._id,
+          qty:3,
+          price:insertedProducts[5].price
+        },
+        {
+          product:insertedProducts[6]._id,
+          qty:2,
+          price:insertedProducts[6].price
+        },
+        {
+          product:insertedProducts[7]._id,
+          qty:1,
+          price:insertedProducts[7].price
+        },
+        {
+          product:insertedProducts[4]._id,
+          qty:1,
+          price:insertedProducts[4].price
+        }
+      ]
+    }
+  ];
+  const insertedOrders = await Orders.insertMany(orders);
+  
   const user: User = {
     email: 'johndoe@example.com',
     password: '1234',
@@ -90,7 +147,10 @@ async function seed() {
         qty: 5,
       },
     ],
-    orders: [],
+    orders: [
+      insertedOrders[0]._id,
+      insertedOrders[1]._id
+    ]
   };
   await Users.create(user);
   const user1: User = {
@@ -110,7 +170,10 @@ async function seed() {
         qty: 25,
       },
     ],
-    orders: [],
+    orders: [
+      insertedOrders[1]._id,
+      insertedOrders[0]._id
+    ]
   };
   const res = await Users.create(user1);
   console.log(JSON.stringify(res, null, 2));
@@ -124,9 +187,17 @@ const productProjection = {
   name: true,
   price: true,
 };
+const orderProjection = {
+  address: true,
+  cardHolder: true,
+  cardNumber: true,
+  date:true,
+  orderItems:true
+};
 const retrievedUser = await Users
   .findOne({ email: 'johndoe@example.com' }, userProjection)
-  .populate('cartItems.product', productProjection);
+  .populate('cartItems.product', productProjection)
+  .populate('orderItems.orders',orderProjection);
 console.log(JSON.stringify(retrievedUser, null, 2));
 
   await conn.disconnect();
