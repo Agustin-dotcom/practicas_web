@@ -2,7 +2,7 @@ import Products, { Product } from '@/models/Product';
 import Users, { User } from '@/models/User';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-
+import bcrypt from 'bcrypt'
 dotenv.config({ path: `.env.local`, override: true });
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -73,9 +73,11 @@ async function seed() {
   await conn.connection.db?.dropDatabase();
 
   const insertedProducts = await Products.insertMany(products);
+  const password = '1234'
+  const hash  = await bcrypt.hash(password,10)
   const user: User = {
     email: 'johndoe@example.com',
-    password: '1234',
+    password: hash,
     name: 'John',
     surname: 'Doe',
     address: '123 Main St, 12345 New York, United States',
@@ -93,9 +95,11 @@ async function seed() {
     orders: [],
   };
   await Users.create(user);
+  const password1 = '12345'
+  const hash1  = await bcrypt.hash(password,10)
   const user1: User = {
     email: 'agustin@gmail.com',
-    password: '1234',
+    password: hash1,
     name: 'Agustín',
     surname: 'Prieto',
     address: '123 Main St, 12345 London, United Kingdom',
