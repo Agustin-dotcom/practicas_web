@@ -356,7 +356,7 @@ export async function checkCredentials(
   email: string,
   password: string
 ): Promise<CheckCredentialsResponse | null> {
-
+await connect();
   // Implement this...
 const user = await Users.findOne({email})
 if (!user)
