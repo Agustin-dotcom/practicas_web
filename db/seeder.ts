@@ -1,5 +1,6 @@
 import Products, { Product } from '@/models/Product';
 import Users, { User } from '@/models/User';
+import Orders,{Order} from '@/models/Order'
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt'
@@ -57,6 +58,7 @@ const products: Product[] = [
   }
 ];
 
+
 async function seed() {
   if (!MONGODB_URI) {
     throw new Error(
@@ -73,6 +75,20 @@ async function seed() {
   await conn.connection.db?.dropDatabase();
 
   const insertedProducts = await Products.insertMany(products);
+  const order:Order = {
+address:"al lado de mi vecino",
+cardHolder: "Agustin Prieto",
+cardNumber: "12345678910",
+date: new Date('2025-10-15'),
+orderItems:[
+  {
+    product:insertedProducts[0]._id,
+    qty:3,
+    price:insertedProducts[0].price
+  }
+]
+}
+const insertedOrder = await Orders.insertOne(order);
   const password = '1234'
   const hash  = await bcrypt.hash(password,10)
   const user: User = {
@@ -92,7 +108,7 @@ async function seed() {
         qty: 5,
       },
     ],
-    orders: [],
+    orders: [insertedOrder],
   };
   await Users.create(user);
   const password1 = '12345'
