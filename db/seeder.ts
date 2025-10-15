@@ -96,7 +96,7 @@ async function seed() {
   };
   await Users.create(user);
   const password1 = '12345'
-  const hash1  = await bcrypt.hash(password,10)
+  const hash1  = await bcrypt.hash(password1,10)
   const user1: User = {
     email: 'agustin@gmail.com',
     password: hash1,

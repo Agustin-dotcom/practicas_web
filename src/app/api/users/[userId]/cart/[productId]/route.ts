@@ -6,7 +6,7 @@ import {
   deleteCartItem,
   GetCartResponse,
 } from '@/lib/handlers';
-
+import { getSession } from '@/lib/auth'
 export async function PUT(
   request: NextRequest,
   {
@@ -15,6 +15,16 @@ export async function PUT(
     params: { userId: string; productId: string };
   }
 ): Promise<NextResponse<GetCartResponse> | NextResponse<ErrorResponse>> {
+  const session = await getSession()
+  if (!session?.userId) {
+    return NextResponse.json(
+      {
+        error: 'NOT_AUTHENTICATED',
+        message: 'Authentication required.',
+      },
+      { status: 401 }
+    )
+  }
   if (
     !Types.ObjectId.isValid(params.userId) ||
     !Types.ObjectId.isValid(params.productId)
@@ -27,6 +37,15 @@ export async function PUT(
       { status: 400 }
     );
   }
+if (session.userId.toString() !== params.userId) {
+  return NextResponse.json(
+    {
+      error: 'NOT_AUTHORIZED',
+      message: 'Unauthorized access.',
+    },
+    { status: 403 }
+  )
+}
 
   const body = await request.json();
 
@@ -76,6 +95,16 @@ export async function DELETE(
     params: { userId: string; productId: string };
   }
 ): Promise<NextResponse<GetCartResponse> | NextResponse<ErrorResponse>> {
+  const session = await getSession()
+  if (!session?.userId) {
+    return NextResponse.json(
+      {
+        error: 'NOT_AUTHENTICATED',
+        message: 'Authentication required.',
+      },
+      { status: 401 }
+    )
+  }
   if (
     !Types.ObjectId.isValid(params.userId) ||
     !Types.ObjectId.isValid(params.productId)
@@ -87,6 +116,15 @@ export async function DELETE(
       },
       { status: 400 }
     );
+  }
+  if (session.userId.toString() !== params.userId) {
+    return NextResponse.json(
+      {
+        error: 'NOT_AUTHORIZED',
+        message: 'Unauthorized access.',
+      },
+      { status: 403 }
+    )
   }
 
   const cart = await deleteCartItem(params.userId, params.productId);
