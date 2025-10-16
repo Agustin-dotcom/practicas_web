@@ -68,6 +68,16 @@ export async function POST(
     params: { userId: string };
   }
 ): Promise<NextResponse<CreateOrderResponse> | NextResponse<ErrorResponse>> {
+  const session = await getSession()
+  if (!session?.userId) {
+    return NextResponse.json(
+      {
+        error: 'NOT_AUTHENTICATED',
+        message: 'Authentication required.',
+      },
+      { status: 401 }
+    )
+  }
   if (!Types.ObjectId.isValid(params.userId)) {
     return NextResponse.json(
       {
@@ -76,6 +86,15 @@ export async function POST(
       },
       { status: 400 }
     );
+  }
+  if (session.userId.toString() !== params.userId) {
+    return NextResponse.json(
+      {
+        error: 'NOT_AUTHORIZED',
+        message: 'Unauthorized access.',
+      },
+      { status: 403 }
+    )
   }
 
   const body = await request.json();

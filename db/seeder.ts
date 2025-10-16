@@ -89,28 +89,28 @@ orderItems:[
 ]
 }
 const insertedOrder = await Orders.insertOne(order);
-  const password = '1234'
-  const hash  = await bcrypt.hash(password,10)
-  const user: User = {
-    email: 'johndoe@example.com',
-    password: hash,
-    name: 'John',
-    surname: 'Doe',
-    address: '123 Main St, 12345 New York, United States',
-    birthdate: new Date('1970-01-01'),
-    cartItems: [
-      {
-        product: insertedProducts[0]._id,
-        qty: 2,
-      },
-      {
-        product: insertedProducts[1]._id,
-        qty: 5,
-      },
-    ],
-    orders: [insertedOrder],
-  };
-  await Users.create(user);
+const password = '1234'
+const hash  = await bcrypt.hash(password,10)
+const user: User = {
+  email: 'johndoe@example.com',
+  password: hash,
+  name: 'John',
+  surname: 'Doe',
+  address: '123 Main St, 12345 New York, United States',
+  birthdate: new Date('1970-01-01'),
+  cartItems: [
+    {
+      product: insertedProducts[0]._id,
+      qty: 2,
+    },
+    {
+      product: insertedProducts[1]._id,
+      qty: 5,
+    },
+  ],
+  orders: [insertedOrder._id],
+};
+await Users.create(user);
   const password1 = '12345'
   const hash1  = await bcrypt.hash(password1,10)
   const user1: User = {
