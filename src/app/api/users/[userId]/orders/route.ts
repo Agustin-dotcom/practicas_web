@@ -77,18 +77,27 @@ export async function POST(
     cardNumber: body.cardNumber,
   });
 
-  if (order === null) {
+  if (order === 0) {
     return NextResponse.json(
       {
         error: 'WRONG_PARAMS',
-        message: 'User not found or cart is empty.',
+        message: 'User not found',
+      },
+      { status: 404 }
+    );
+  }
+  if (order == 1) {
+    return NextResponse.json(
+      {
+        error: 'WRONG_PARAMS',
+        message: 'Cart is empty.',
       },
       { status: 400 }
     );
   }
 
   const headers = new Headers();
-  headers.append('Location', `/api/users/${params.userId}/orders/${order._id}`);
+  headers.append('Location', `/api/users/${params.userId}/orders/${(order as CreateOrderResponse)._id}`);
 
-  return NextResponse.json(order, { status: 201, headers });
+  return NextResponse.json(order as CreateOrderResponse, { status: 201, headers });
 }

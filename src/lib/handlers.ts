@@ -265,19 +265,19 @@ export async function createOrder(
     cardHolder: string;
     cardNumber: string;
   }
-): Promise<CreateOrderResponse | null> {
+): Promise<CreateOrderResponse | number> {
   await connect();
 
   // Find user with populated cart
   const user = await Users.findById(userId).populate('cartItems.product');
 
   if (!user) {
-    return null;
+    return 0;
   }
 
   // Check if cart is empty
   if (user.cartItems.length === 0) {
-    return null;
+    return 1;
   }
 
   // Transform cart items to order items (with price snapshot)
