@@ -333,9 +333,11 @@ export async function getUserOrder(
   if (!orderBelongsToUser) {
     return null;
   }
-
+const ordersProjection = {
+  __v:false
+}
   // Find and populate order
-  const order = await Orders.findById(orderId).populate({
+  const order = await Orders.findById(orderId,ordersProjection).populate({
     path: 'orderItems.product',
     select: '-__v',
   });
