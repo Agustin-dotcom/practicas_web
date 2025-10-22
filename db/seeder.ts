@@ -1,5 +1,6 @@
 import Products, { Product } from '@/models/Product';
 import Users, { User } from '@/models/User';
+import Orders, {Order} from '@/models/Order'
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
@@ -73,6 +74,23 @@ async function seed() {
   await conn.connection.db?.dropDatabase();
 
   const insertedProducts = await Products.insertMany(products);
+
+
+  const order:Order = {
+address:"al lado de mi vecino",
+cardHolder: "Agustin Prieto",
+cardNumber: "12345678910",
+date: new Date(),
+orderItems:[
+  {
+    product:insertedProducts[0]._id,
+    qty:3,
+    price:insertedProducts[0].price
+  }
+]
+}
+const insertedOrder = await Orders.insertOne(order);
+
   const user: User = {
     email: 'johndoe@example.com',
     password: '1234',
@@ -90,7 +108,7 @@ async function seed() {
         qty: 5,
       },
     ],
-    orders: [],
+    orders: [insertedOrder._id],
   };
   await Users.create(user);
   const user1: User = {
