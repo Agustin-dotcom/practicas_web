@@ -265,19 +265,19 @@ export async function createOrder(
     cardHolder: string;
     cardNumber: string;
   }
-): Promise<CreateOrderResponse | null> {
+): Promise<CreateOrderResponse | number> {
   await connect();
 
   // Find user with populated cart
   const user = await Users.findById(userId).populate('cartItems.product');
 
   if (!user) {
-    return null;
+    return 0;
   }
 
   // Check if cart is empty
   if (user.cartItems.length === 0) {
-    return null;
+    return 1;
   }
 
   // Transform cart items to order items (with price snapshot)
@@ -333,9 +333,11 @@ export async function getUserOrder(
   if (!orderBelongsToUser) {
     return null;
   }
-
+const ordersProjection = {
+  __v:false
+}
   // Find and populate order
-  const order = await Orders.findById(orderId).populate({
+  const order = await Orders.findById(orderId,ordersProjection).populate({
     path: 'orderItems.product',
     select: '-__v',
   });
