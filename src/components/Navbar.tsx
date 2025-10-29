@@ -11,7 +11,7 @@ export default async function Navbar() {
   const session = await getSession()
 
   return (
-    <nav className='fixed top-0 z-50 w-full bg-gray-800 bg-opacity-90 backdrop-blur-lg backdrop-filter'>
+    <nav className='fixed top-0 z-50 w-full bg-[#ff8000] bg-opacity-90 backdrop-blur-lg backdrop-filter'>
       <div className='mx-auto max-w-7xl px-6 sm:px-8 lg:px-10'>
         <div className='relative flex h-16 items-center justify-between'>
           <div className='flex flex-1 items-stretch justify-start'>
@@ -21,11 +21,11 @@ export default async function Navbar() {
             >
               <img
                 className='block h-8 w-auto'
-                src='/img/logo.svg'
-                alt='GameShop logo'
+                src='/img/supermarket_logo.png'
+                alt='Supermarket logo'
               />
               <div className='inline-block w-auto text-xl font-semibold'>
-                GameShop
+                Supermarket
               </div>
             </Link>
           </div>

@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { getCartItems } from '@/lib/handlers'
+import { getUserCart } from '@/lib/handlers'
 import Link from 'next/link'
 import { getSession } from '@/lib/auth'
 
@@ -9,7 +9,7 @@ export default async function Cart() {
     redirect('/auth/signin')
   }
 
-  const cartItemsData = await getCartItems(session.userId)
+  const cartItemsData = await getUserCart(session.userId)
   if (!cartItemsData) {
     redirect('/auth/signin')
   }
