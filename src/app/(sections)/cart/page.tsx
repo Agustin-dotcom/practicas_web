@@ -13,7 +13,14 @@ export default async function Cart() {
   if (!cartItemsData) {
     redirect('/auth/signin')
   }
-
+  const totalPrice:number[] = [cartItemsData.cartItems.map((cartItem)=>(cartItem.product.price*cartItem.qty))];
+  let suma = 0;
+  for (const numero of totalPrice){
+    suma += numero;
+  }
+  
+  
+  console.log(totalPrice);
   return (
     <div className='flex flex-col'>
       <h3 className='pb-4 text-3xl font-bold text-gray-900 sm:pb-6 lg:pb-8'>
@@ -54,8 +61,10 @@ export default async function Cart() {
                     </button>
                 </div> 
               </div>
-              
           ))}
+          <div>
+            Total: {suma}
+          </div>
         </>
       )}
     </div>
