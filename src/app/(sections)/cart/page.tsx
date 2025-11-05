@@ -15,12 +15,10 @@ export default async function Cart() {
   }
   const totalPrice:number[] = [cartItemsData.cartItems.map((cartItem)=>(cartItem.product.price*cartItem.qty))];
   let suma = 0;
-  for (const numero of totalPrice){
-    suma += numero;
+  for (let i = 0;i<totalPrice[0].length;i++){
+    suma += totalPrice[0][i]
   }
-  
-  
-  console.log(totalPrice);
+
   return (
     <div className='flex flex-col'>
       <h3 className='pb-4 text-3xl font-bold text-gray-900 sm:pb-6 lg:pb-8'>
@@ -60,10 +58,13 @@ export default async function Cart() {
                       </svg>
                     </button>
                 </div> 
+
+
+                
               </div>
           ))}
-          <div>
-            Total: {suma}
+          <div class='flex text-end items-center space-x-4 p-4 border rounded-lg shadow-sm'>
+                  Total: {suma + ' $'}
           </div>
         </>
       )}
