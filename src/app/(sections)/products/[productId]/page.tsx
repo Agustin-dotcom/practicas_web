@@ -18,16 +18,21 @@ export default async function Product({
 
   return (
     <div className='flex flex-col'>
-      <h3 className='pb-4 text-3xl font-bold text-gray-900 sm:pb-6 lg:pb-8'>
+      <h3 className='pb-4 text-3xl font-bold text-black sm:pb-6 lg:pb-8'>
+
         {product.name}
       </h3>
         <img
           src={product.img}
           alt={product.name}
-          className='max-h-40 max-w-40 object-cover object-center group-hover:opacity-75'
+          className='max-h-80 max-w-80 object-cover object-center group-hover:opacity-75'
+          
         />
       {product.description && <p>{product.description}</p>}
       {product.price + ' $'}
+      <div className= 'text-1xl font-bold text-black text-right'>
+        {product.cuerpo}
+      </div>
     </div>
   )
 }
