@@ -28,6 +28,7 @@ export interface CreateUserResponse {
   description: string;
   img: string;
   price: number;
+  cuerpo: string;
 } 
 export interface GetCartResponse {
   cartItems: CartItem[]

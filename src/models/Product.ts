@@ -4,6 +4,7 @@ import mongoose, { Schema, Types } from 'mongoose';
     description: string;
     img: string;
     price: number;
+    cuerpo: string;
   }
   
   
@@ -23,7 +24,12 @@ import mongoose, { Schema, Types } from 'mongoose';
     price: {
       type: Number,
       required: true,
+    },
+    cuerpo: {
+      type: String,
+      required: true
     }
+    
   });
 
   export default mongoose.models.Product as mongoose.Model<Product> || mongoose.model<Product>('Product', ProductSchema);
