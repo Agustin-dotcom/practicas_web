@@ -58,9 +58,6 @@ export default async function Cart() {
                       </svg>
                     </button>
                 </div> 
-
-
-                
               </div>
           ))}
           <div class='flex text-end items-center space-x-4 p-4 border rounded-lg shadow-sm'>
