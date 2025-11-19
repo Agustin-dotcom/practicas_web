@@ -24,7 +24,7 @@ export default async function Navbar() {
                 src='/img/supermarket_logo.png'
                 alt='Supermarket logo'
               />
-              <div className='inline-block w-auto text-xl font-semibold'>
+              <div className='inline-block w-auto text-sm md:text-xl font-semibold'>
                 Supermarket
               </div>
             </Link>
