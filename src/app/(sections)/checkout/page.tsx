@@ -6,6 +6,7 @@ import { getUserCart,updateCartItem } from '@/lib/handlers'
 import Link from 'next/link'
 import { getSession } from '@/lib/auth'
 import CartCheckoutButton from '@/components/CartCheckoutButton'
+import NavbarButton from '@/components/NavbarButton'
 export default async function Checkout() {
   const session = await getSession()
     if (!session) {
@@ -22,10 +23,10 @@ export default async function Checkout() {
     suma += totalPrice[0][i]
   }
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="flex-shrink bg-white flex flex-col">
       {/* Checkout Section */}
       <main className="flex-grow flex justify-center items-start py-10 px-4">
-        <div className="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-6 md:p-10">
+        <div className="w-full max-w-3xl bg-gray-100 rounded-2xl shadow-lg p-6 md:p-10">
           <h2 className="text-2xl font-semibold mb-6">Checkout</h2>
 
           {/* Order Summary */}
@@ -36,6 +37,7 @@ export default async function Checkout() {
                   <th className="py-2">Product</th>
                   <th className="py-2">Quantity</th>
                   <th className="py-2">Price</th>
+                  <th className="py-2">Total</th>
                 </tr>
               </thead>
               <tbody>
@@ -44,6 +46,7 @@ export default async function Checkout() {
                     <td className="py-3">{cartItem.product.name}</td>
                     <td className="py-3">{cartItem.qty}</td>
                     <td className="py-3">{cartItem.product.price} $</td>
+                    <td className="py-3">{cartItem.product.price*cartItem.qty} $</td>
                   </tr>
                   
           ))}
@@ -95,12 +98,12 @@ export default async function Checkout() {
               </div>
 
               {/* Purchase Button */}
-              <button
-                type="submit"
-                className="mt-6 w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition"
-              >
-                Purchase
-              </button>
+              <NavbarButton href="\[orderId]">
+                <button type="submit" className="mt-6 w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition">
+                  Purchase
+                </button>
+              </NavbarButton>
+              
             </form>
           </div>
         </div>
