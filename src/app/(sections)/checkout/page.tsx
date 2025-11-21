@@ -23,11 +23,23 @@ export default async function Checkout() {
     suma += totalPrice[0][i]
   }
   return (
+    <div>
+      <div className="text-4xl font-semibold mb-6 text-center">
+        Checkout
+      </div>
+    
+    {cartItemsData.cartItems.length === 0 ? (
+        <div className='text-center'>
+          <span className='text-sm text-gray-400'>The cart is empty</span>
+        </div>
+      ) : (
+    <>
+    
     <div className="flex-shrink bg-white flex flex-col">
       {/* Checkout Section */}
       <main className="flex-grow flex justify-center items-start py-10 px-4">
         <div className="w-full max-w-3xl bg-gray-100 rounded-2xl shadow-lg p-6 md:p-10">
-          <h2 className="text-2xl font-semibold mb-6">Checkout</h2>
+          
 
           {/* Order Summary */}
           <div className="overflow-x-auto">
@@ -43,7 +55,11 @@ export default async function Checkout() {
               <tbody>
                 {cartItemsData.cartItems.map((cartItem) => (
                   <tr key = {cartItem.product._id.toString()} className="border-b border-gray-100">
-                    <td className="py-3">{cartItem.product.name}</td>
+                    <td className="py-3">
+                      <Link href={`/products/${cartItem.product._id.toString()}`}>
+                        {cartItem.product.name}
+                      </Link>  
+                    </td>
                     <td className="py-3">{cartItem.qty}</td>
                     <td className="py-3">{cartItem.product.price} $</td>
                     <td className="py-3">{cartItem.product.price*cartItem.qty} $</td>
@@ -108,6 +124,9 @@ export default async function Checkout() {
           </div>
         </div>
       </main>
+    </div>
+
+    </>)}
     </div>
   );
 }

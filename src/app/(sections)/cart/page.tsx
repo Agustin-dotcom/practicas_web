@@ -7,7 +7,6 @@ import CartCheckoutButton from '@/components/CartCheckoutButton'
 export default async function Cart() {
   const session = await getSession()
   if (!session) {
-    console.log('hey')
     redirect('/auth/signin')
   }
   
