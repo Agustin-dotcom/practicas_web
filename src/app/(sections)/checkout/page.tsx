@@ -51,10 +51,10 @@ export default async function Checkout() {
                   
           ))}
                 <tr>
-                  <td colSpan="3" className="py-3 text-right font-semibold">
-                    Total:
-                  </td>
-                  <td className="py-3 text-right font-semibold">{suma} $</td>
+                    <td className="py-3">Total:</td>
+                    <td className="py-3"></td>
+                    <td className="py-3"></td>
+                    <td className="py-3">{suma} $</td>
                 </tr>
               </tbody>
             </table>
@@ -74,7 +74,7 @@ export default async function Checkout() {
                 />
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Card Holder
@@ -98,7 +98,7 @@ export default async function Checkout() {
               </div>
 
               {/* Purchase Button */}
-              <NavbarButton href="\[orderId]">
+              <NavbarButton href=''>
                 <button type="submit" className="mt-6 w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition">
                   Purchase
                 </button>
