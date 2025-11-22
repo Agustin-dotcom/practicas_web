@@ -18,7 +18,7 @@ const products: Product[] = [
   {
     name: 'Brevas Enteras en Almibar Ainoa',
     price: 9990,
-    img: 'https://stockimages.tiendasd1.com/stockimages.tiendasd1.com/kobastockimages/IMAGENES/12000117/brevas-enteras-en-almibar-ainoa-560-g-x-1-und-01.png',
+    img: 'https://ae-pic-a1.aliexpress-media.com/kf/S10d01c5ef85c442eba8cb3f1d9732eedm.png_960x960.png_.avif',
     description: '320 g (g a $31.22)',
     cuerpo:'BREVAS ENTERAS EN ALMIBAR AINOA 560 G X 1 UND'
   },

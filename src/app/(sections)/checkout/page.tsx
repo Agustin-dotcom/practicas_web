@@ -35,10 +35,10 @@ export default async function Checkout() {
       ) : (
     <>
     
-    <div className="flex-shrink bg-white flex flex-col">
+    <div className="flex-shrink">
       {/* Checkout Section */}
       <main className="flex-grow flex justify-center items-start py-10 px-4">
-        <div className="w-full max-w-3xl bg-gray-100 rounded-2xl shadow-lg p-6 md:p-10">
+        <div className="w-full max-w-3xl rounded-2xl shadow-lg p-6 md:p-10">
           
 
           {/* Order Summary */}

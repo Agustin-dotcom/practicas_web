@@ -1,119 +1,128 @@
 import { Types } from 'mongoose'
 import { notFound } from 'next/navigation'
-import { getProduct } from '@/lib/handlers'
+import { getUserOrder } from '@/lib/handlers'
 import { redirect } from 'next/navigation'
-import { getUserCart,updateCartItem } from '@/lib/handlers'
-import Link from 'next/link'
 import { getSession } from '@/lib/auth'
-import CartCheckoutButton from '@/components/CartCheckoutButton'
-export default async function Ticket() {
+import Link from 'next/link'
+export default async function Ticket({
+  params,
+}: {
+  params: { orderId: string }
+}) {
+    if (!Types.ObjectId.isValid(params.orderId)) {
+      notFound()
+    }
   const session = await getSession()
     if (!session) {
       redirect('/auth/signin')
     }
-  
-    const cartItemsData = await getUserCart(session.userId)
-    if (!cartItemsData) {
-      redirect('/auth/signin')
+    const userOrder = await getUserOrder(session.userId,params.orderId)
+    if (userOrder === null) {
+      notFound()
     }
-    const totalPrice:number[] = [cartItemsData.cartItems.map((cartItem)=>(cartItem.product.price*cartItem.qty))];
+    //const cartItemsData = await getUserCart(session.userId)
+    //if (!cartItemsData) {
+    //  redirect('/auth/signin')
+    //}
+  const totalPrice:number[] = [userOrder.orderItems.map((orderItem)=>(orderItem.product.price*orderItem.qty))];
   let suma = 0;
   for (let i = 0;i<totalPrice[0].length;i++){
     suma += totalPrice[0][i]
   }
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    
+        <div>
+      <div className="text-3xl text-center font-semibold">
+        Order details
+      </div> 
+      <div className='flex flex-row gap-x-2'>
+        <div>
+          <img className='block h-8 w-auto'src='/img/shopping_cart.svg'alt='Shopping cart logo'/>
+        </div>
+        <div className='font-bold'>
+          Order ID:
+        </div>
+        <div>
+          {userOrder._id}
+        </div>
+      </div>
+
+      <div className='flex flex-row gap-x-2'>
+        <div>
+          <img className='block h-8 w-auto'src='/img/house.svg'alt='House logo'/>
+        </div>
+        <div className='font-bold'>
+          Shipping address:
+        </div>
+        <div>
+          {userOrder.address}
+        </div>
+      </div>
+
+      <div className='flex flex-row gap-x-2'>
+        <div>
+          <img className='block h-8 w-auto'src='/img/credit_card.svg'alt='Credit Card logo'/>
+        </div>
+        <div className='font-bold'>
+          Payment information:
+        </div>
+        <div>
+          {userOrder.cardNumber} ({userOrder.cardHolder})
+        </div>
+      </div>
+
+      <div className='flex flex-row gap-x-2'>
+        <div>
+          <img className='block h-8 w-auto'src='/img/calendar.svg'alt='Calendar logo'/>
+        </div>
+        <div className='font-bold'>
+          Date of purchase:
+        </div>
+        <div>
+          {userOrder.date.getDay()}/{userOrder.date.getMonth()}/{userOrder.date.getFullYear()}
+        </div>
+      </div>
       {/* Checkout Section */}
-      <main className="flex-grow flex justify-center items-start py-10 px-4">
+      <div className="flex-grow flex justify-center items-start py-10 px-4">
         <div className="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-6 md:p-10">
-          <h2 className="text-2xl font-semibold mb-6">Checkout</h2>
+          
 
           {/* Order Summary */}
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="py-2">Product</th>
-                  <th className="py-2">Quantity</th>
-                  <th className="py-2">Price</th>
+                <tr className="border-b border-gray-100">
+                  <th className="py-2">PRODUCT NAME</th>
+                  <th className="py-2">QUANTITY</th>
+                  <th className="py-2">PRICE</th>
+                  <th className="py-2">TOTAL</th>
                 </tr>
               </thead>
               <tbody>
-                {cartItemsData.cartItems.map((cartItem) => (
-                  <tr key = {cartItem.product._id.toString()} className="border-b border-gray-100">
-                    <td className="py-3">{cartItem.product.name}</td>
-                    <td className="py-3">{cartItem.qty}</td>
-                    <td className="py-3">{cartItem.product.price} $</td>
+                {userOrder.orderItems.map((orderItem) => (
+                  <tr key = {orderItem.product._id.toString()} className="border-b border-gray-100">
+                    <td className="py-3">
+                      <Link href={`/products/${orderItem.product._id.toString()}`}>
+                        {orderItem.product.name}
+                      </Link>  
+                    </td>
+                    <td className="py-3">{orderItem.qty}</td>
+                    <td className="py-3">{orderItem.product.price} $</td>
+                    <td className="py-3">{orderItem.product.price*orderItem.qty} $</td>
                   </tr>
                   
           ))}
                 <tr>
-                  <td colSpan="3" className="py-3 text-right font-semibold">
-                    Total:
-                  </td>
-                  <td className="py-3 text-right font-semibold">{suma} $</td>
+                  <td className="py-3">Total:</td>
+                  <td className="py-3"></td>
+                  <td className="py-3"></td>
+                  <td className="py-3">{suma} $</td>
                 </tr>
               </tbody>
             </table>
           </div>
-
-          {/* Payment Form */}
-          <div className="mt-8">
-            <form className="grid grid-cols-1 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Name on card
-                </label>
-                <input
-                  type="text"
-                  placeholder="John Doe"
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Card number
-                </label>
-                <input
-                  type="text"
-                  placeholder="1234 5678 9012 3456"
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Expiration
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="MM/YY"
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    CVV
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="123"
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500"
-                  />
-                </div>
-              </div>
-
-              {/* Purchase Button */}
-              <button
-                type="submit"
-                className="mt-6 w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition"
-              >
-                Purchase
-              </button>
-            </form>
-          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
