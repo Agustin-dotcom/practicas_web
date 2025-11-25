@@ -79,7 +79,7 @@ export default async function Ticket({
           Date of purchase:
         </div>
         <div>
-          {userOrder.date.getDay()}/{userOrder.date.getMonth()}/{userOrder.date.getFullYear()}
+          {userOrder.date.toLocaleDateString()}
         </div>
       </div>
       {/* Checkout Section */}
