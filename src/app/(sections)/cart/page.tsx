@@ -61,13 +61,12 @@ export default async function Cart() {
           <div className='flex justify-end text-end items-end space-x-4 p-4 border rounded-lg shadow-sm'>
                   Total: {suma + ' $'}
           </div>
-          
-            <PurchaseCheckoutButton href='/checkout' buttonText='Checkout'>
-              <></>
-            </PurchaseCheckoutButton>
-          
+            
         </>
       )}
+      <PurchaseCheckoutButton href='/checkout' buttonText='Checkout'>
+              <></>
+            </PurchaseCheckoutButton>
     </div>
   )
 }
