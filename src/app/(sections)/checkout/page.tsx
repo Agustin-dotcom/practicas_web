@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { getSession } from '@/lib/auth'
 import CartCheckoutButton from '@/components/CartCheckoutButton'
 import NavbarButton from '@/components/NavbarButton'
+import PurchaseCheckoutButton from '@/components/PurchaseCheckoutButton'
 export default async function Checkout() {
   const session = await getSession()
     if (!session) {
@@ -114,12 +115,9 @@ export default async function Checkout() {
               </div>
 
               {/* Purchase Button */}
-              <NavbarButton href=''>
-                <button type="submit" className="mt-6 w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition">
-                  Purchase
-                </button>
-              </NavbarButton>
-              
+              <PurchaseCheckoutButton href='' buttonText='Purchase'>
+                <></>
+              </PurchaseCheckoutButton>
             </form>
           </div>
         </div>

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { getSession } from '@/lib/auth'
 import CartCheckoutButton from '@/components/CartCheckoutButton'
 import AddSubtractQuantityOrDeleteItemButtons from '@/components/AddSubtractQuantityOrDeleteItemButtons'
+import PurchaseCheckoutButton from '@/components/PurchaseCheckoutButton'
 
 export default async function Cart() {
   const session = await getSession()
@@ -60,16 +61,11 @@ export default async function Cart() {
           <div className='flex justify-end text-end items-end space-x-4 p-4 border rounded-lg shadow-sm'>
                   Total: {suma + ' $'}
           </div>
-          <div className="flex flex-col items-center">
-              <CartCheckoutButton href='/checkout'>
-                  <span className='sr-only'>Checkout</span>
-                  <button 
-                      className="flex justify-center bg-gray-200 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-300">
-                        Checkout
-                    </button>
-                  
-          </CartCheckoutButton>
-          </div>
+          
+            <PurchaseCheckoutButton href='/checkout' buttonText='Checkout'>
+              <></>
+            </PurchaseCheckoutButton>
+          
         </>
       )}
     </div>
