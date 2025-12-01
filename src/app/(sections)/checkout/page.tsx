@@ -117,11 +117,15 @@ export default async function Checkout() {
               {/* Purchase Button */}
               <PurchaseCheckoutButton href='' buttonText='Purchase'>
                 <></>
-              </PurchaseCheckoutButton>
+          </PurchaseCheckoutButton>
             </form>
+            
           </div>
+          
         </div>
+        
       </main>
+      
     </div>
 
     </>)}
