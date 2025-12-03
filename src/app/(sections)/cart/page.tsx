@@ -53,7 +53,7 @@ export default async function Cart() {
                     <div className='text-sm'>
                       {cartItem.product.description}
                     </div>
-                    <AddSubtractQuantityOrDeleteItemButtons qty={cartItem.qty}/>
+                    <AddSubtractQuantityOrDeleteItemButtons userId={session.userId} productId={cartItem.product._id.toString()} value={cartItem.qty}/>
                     </div>
                   </div>
               </div>

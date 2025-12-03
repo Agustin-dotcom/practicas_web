@@ -1,8 +1,37 @@
+'use client'
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 interface CartItemProps{
-    qty: number
+    userId:string,
+    productId:string,
+    value:number
 }
-export default function AddSubtractQuantityOrDeleteItemButtons({qty}:CartItemProps)
+export default function AddSubtractQuantityOrDeleteItemButtons({
+  userId,
+  productId,
+  value
+}:CartItemProps)
 {
+  const router = useRouter()
+  const [isUpdating,setIsUpdating] = useState(false)
+
+  const onPlusBtnClick = async function () {
+    setIsUpdating(true)
+
+    try {
+      await fetch(`/api/users/${userId}/cart/${productId}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          qty: value + 1,
+        }),
+      })
+      router.refresh()
+    } finally {
+      setIsUpdating(false)
+    }
+  }
   return(
     <div className='grid grid-cols-4'>
       <div>
@@ -11,10 +40,10 @@ export default function AddSubtractQuantityOrDeleteItemButtons({qty}:CartItemPro
         </button>
       </div>
       <div className='text-black'>
-        {qty}
+        {value}
       </div>
       <div>
-        <button className="bg-gray-200 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-300">
+        <button onClick={onPlusBtnClick} className="bg-gray-200 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-300" disabled={isUpdating}>
           +
       </button>
       </div>

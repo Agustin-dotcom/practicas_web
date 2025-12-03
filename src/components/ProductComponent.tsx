@@ -22,7 +22,7 @@ export default function ProductTile({ product,session,qty }: ProductTileProps) {
               {product.description && <p>{product.description}</p>}
               {product.price + ' $'}
             </h2>
-            {(!session)?(<></>):(<AddSubtractQuantityOrDeleteItemButtons qty={qty}/>)}
+            {(!session)?(<></>):(<AddSubtractQuantityOrDeleteItemButtons userId={session} productId={product._id.toString()} value={qty}/>)}
             </div>
             <div>
               <div className='text-xl font-bold text-black text-center'>
