@@ -3,7 +3,7 @@ import { getUserCart,updateCartItem } from '@/lib/handlers'
 import Link from 'next/link'
 import { getSession } from '@/lib/auth'
 import CartCheckoutButton from '@/components/CartCheckoutButton'
-import AddSubtractQuantityOrDeleteItemButtons from '@/components/AddSubtractQuantityOrDeleteItemButtons'
+import AddSubtractQuantityOrDeleteItemButtons from '@/components/CartItemCounter'
 import PurchaseCheckoutButton from '@/components/PurchaseCheckoutButton'
 
 export default async function Cart() {

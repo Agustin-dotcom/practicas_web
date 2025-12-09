@@ -7,7 +7,7 @@ export default function SignIn() {
       <div className='mx-auto w-full max-w-sm'>
         <img
           className='mx-auto h-10 w-auto'
-          src='/img/logo.svg'
+          src='/img/supermarket_logo.png'
           alt='GameShop logo'
         />
         <h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>

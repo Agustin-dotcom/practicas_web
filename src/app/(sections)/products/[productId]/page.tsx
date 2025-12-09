@@ -2,7 +2,7 @@ import { Types } from 'mongoose'
 import { notFound } from 'next/navigation'
 import { getSession } from '@/lib/auth'
 import { getUserCart,getProduct } from '@/lib/handlers'
-import AddSubtractQuantityOrDeleteItemButtons from '@/components/AddSubtractQuantityOrDeleteItemButtons'
+import AddSubtractQuantityOrDeleteItemButtons from '@/components/CartItemCounter'
 import ProductComponent from '@/components/ProductComponent'
 export default async function Product({
   params,

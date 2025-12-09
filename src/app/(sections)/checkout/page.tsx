@@ -8,6 +8,7 @@ import { getSession } from '@/lib/auth'
 import CartCheckoutButton from '@/components/CartCheckoutButton'
 import NavbarButton from '@/components/NavbarButton'
 import PurchaseCheckoutButton from '@/components/PurchaseCheckoutButton'
+import CheckOutForm from '@/components/CheckOutForm'
 export default async function Checkout() {
   const session = await getSession()
     if (!session) {
@@ -78,52 +79,8 @@ export default async function Checkout() {
           </div>
 
           {/* Payment Form */}
-          <div className="mt-8">
-            <form className="grid grid-cols-1 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Shipping Address
-                </label>
-                <input
-                  type="text"
-                  placeholder="Calle Ramon Cajal 2"
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Card Holder
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="John Doe"
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Card Number
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="1234 5678 9012 3456"
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500"
-                  />
-                </div>
-              </div>
-
-              {/* Purchase Button */}
-              <div>
-                <PurchaseCheckoutButton href='' buttonText='Purchase'>
-                  <></>
-                </PurchaseCheckoutButton>
-              </div>
-              
-            </form>
-            
-          </div>
+          <CheckOutForm userId={session.userId}>
+          </CheckOutForm>
           
         </div>
         

@@ -5,6 +5,7 @@ import {
 } from '@heroicons/react/24/outline'
 import NavbarCartButton from '@/components/NavbarCartButton'
 import NavbarButton from '@/components/NavbarButton'
+import NavbarSignOutButton from '@/components/NavbarSignOutButton'
 
 import Link from 'next/link'
 import { getSession } from '@/lib/auth'
@@ -34,7 +35,7 @@ export default async function Navbar() {
           <div className='absolute inset-y-0 right-0 flex items-center space-x-4'>
             {session ? (
               <>
-                <NavbarCartButton href='/cart'>
+                <NavbarCartButton>
                   <span className='sr-only'>Cart</span>
                   <ShoppingCartIcon className='h-6 w-6' aria-hidden='true' />
                 </NavbarCartButton>
@@ -42,13 +43,13 @@ export default async function Navbar() {
                   <span className='sr-only'>User profile</span>
                   <UserIcon className='h-6 w-6' aria-hidden='true' />
                 </NavbarButton>
-                <NavbarButton href='#'>
+                <NavbarSignOutButton href='#'>
                   <span className='sr-only'>Sign out</span>
                   <ArrowRightStartOnRectangleIcon
                     className='h-6 w-6'
                     aria-hidden='true'
                   />
-                </NavbarButton>
+                </NavbarSignOutButton>
               </>
             ) : (
               <>

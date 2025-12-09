@@ -7,11 +7,11 @@ export default function SignUp() {
       <div className='mx-auto w-full max-w-sm'>
         <img
           className='mx-auto h-10 w-auto'
-          src='/img/logo.svg'
+          src='/img/supermarket_logo.png'
           alt='GameShop logo'
         />
         <h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
-          Sign in to your account
+          Register an account
         </h2>
       </div>
 
@@ -19,12 +19,12 @@ export default function SignUp() {
         <SignUpForm />
 
         <p className='mt-10 text-center text-sm text-gray-500'>
-          Not a member?{' '}
+          Already have an account?{' '}
           <Link
-            href='/auth/signup'
+            href='/auth/signin'
             className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'
           >
-            Register now!
+            Sign in!
           </Link>
         </p>
       </div>

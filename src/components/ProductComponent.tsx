@@ -1,6 +1,6 @@
 import { Product } from '@/models/Product'
 import { Types } from 'mongoose'
-import AddSubtractQuantityOrDeleteItemButtons from '@/components/AddSubtractQuantityOrDeleteItemButtons'
+import CartItemCounter from '@/components/CartItemCounter'
 
 interface ProductTileProps {
   product: Product & { _id: Types.ObjectId },
@@ -22,7 +22,7 @@ export default function ProductTile({ product,session,qty }: ProductTileProps) {
               {product.description && <p>{product.description}</p>}
               {product.price + ' $'}
             </h2>
-            {(!session)?(<></>):(<AddSubtractQuantityOrDeleteItemButtons userId={session} productId={product._id.toString()} value={qty}/>)}
+            {(!session)?(<></>):(<CartItemCounter userId={session} productId={product._id.toString()} value={qty}/>)}
             </div>
             <div>
               <div className='text-xl font-bold text-black text-center'>
