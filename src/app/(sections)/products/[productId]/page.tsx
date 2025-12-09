@@ -4,7 +4,8 @@ import { getSession } from '@/lib/auth'
 import { getUserCart,getProduct } from '@/lib/handlers'
 import AddSubtractQuantityOrDeleteItemButtons from '@/components/CartItemCounter'
 import ProductComponent from '@/components/ProductComponent'
-export default async function Product({
+import {Product} from '@/models/Product'
+export default async function Product_({
   params,
 }: {
   params: { productId: string }
@@ -23,7 +24,7 @@ export default async function Product({
   }
   const cartItemsData = await getUserCart(session?.userId)
   let qty = 0
-  const specificProductWeWant = cartItemsData?.cartItems.find(cartItem=>cartItem.product.id==product._id)
+  const specificProductWeWant = cartItemsData?.cartItems.find(cartItem=>(cartItem.product as Product & Types.ObjectId)._id==product._id)
   if(specificProductWeWant)
   {
     qty = specificProductWeWant.qty

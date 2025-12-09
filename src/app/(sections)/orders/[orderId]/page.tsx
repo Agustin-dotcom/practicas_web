@@ -4,6 +4,7 @@ import { getUserOrder } from '@/lib/handlers'
 import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
 import Link from 'next/link'
+import {Product} from '@/models/Product'
 export default async function Ticket({
   params,
 }: {
@@ -24,10 +25,10 @@ export default async function Ticket({
     //if (!cartItemsData) {
     //  redirect('/auth/signin')
     //}
-  const totalPrice:number[] = [userOrder.orderItems.map((orderItem)=>(orderItem.product.price*orderItem.qty))];
+  const totalPrice:number[] = userOrder.orderItems.map((orderItem)=>((orderItem.product as Product & Types.ObjectId).price*orderItem.qty));
   let suma = 0;
-  for (let i = 0;i<totalPrice[0].length;i++){
-    suma += totalPrice[0][i]
+  for (let i = 0;i<totalPrice.length;i++){
+    suma += totalPrice[i]
   }
   return (
     
@@ -43,7 +44,7 @@ export default async function Ticket({
           Order ID:
         </div>
         <div>
-          {userOrder._id}
+          {userOrder._id.toString()}
         </div>
       </div>
 
@@ -103,12 +104,12 @@ export default async function Ticket({
                   <tr key = {orderItem.product._id.toString()} className="border-b border-gray-100">
                     <td className="py-3">
                       <Link href={`/products/${orderItem.product._id.toString()}`}>
-                        {orderItem.product.name}
+                        {(orderItem.product as Product & Types.ObjectId).name}
                       </Link>  
                     </td>
                     <td className="py-3">{orderItem.qty}</td>
-                    <td className="py-3">{orderItem.product.price} $</td>
-                    <td className="py-3">{orderItem.product.price*orderItem.qty} $</td>
+                    <td className="py-3">{(orderItem.product as Product & Types.ObjectId).price} $</td>
+                    <td className="py-3">{(orderItem.product as Product & Types.ObjectId).price*orderItem.qty} $</td>
                   </tr>
                   
           ))}

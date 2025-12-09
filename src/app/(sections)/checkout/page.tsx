@@ -9,6 +9,7 @@ import CartCheckoutButton from '@/components/CartCheckoutButton'
 import NavbarButton from '@/components/NavbarButton'
 import PurchaseCheckoutButton from '@/components/PurchaseCheckoutButton'
 import CheckOutForm from '@/components/CheckOutForm'
+import {Product} from '@/models/Product'
 export default async function Checkout() {
   const session = await getSession()
     if (!session) {
@@ -19,10 +20,10 @@ export default async function Checkout() {
     if (!cartItemsData) {
       redirect('/auth/signin')
     }
-    const totalPrice:number[] = [cartItemsData.cartItems.map((cartItem)=>(cartItem.product.price*cartItem.qty))];
+    const totalPrice:number[] = cartItemsData.cartItems.map((cartItem)=>((cartItem.product as Product & Types.ObjectId).price*cartItem.qty));
   let suma = 0;
-  for (let i = 0;i<totalPrice[0].length;i++){
-    suma += totalPrice[0][i]
+  for (let i = 0;i<totalPrice.length;i++){
+    suma += totalPrice[i]
   }
   return (
     <div>
@@ -59,12 +60,12 @@ export default async function Checkout() {
                   <tr key = {cartItem.product._id.toString()} className="border-b border-gray-100">
                     <td className="py-3">
                       <Link href={`/products/${cartItem.product._id.toString()}`}>
-                        {cartItem.product.name}
+                        {(cartItem.product as Product & Types.ObjectId).name}
                       </Link>  
                     </td>
                     <td className="py-3">{cartItem.qty}</td>
-                    <td className="py-3">{cartItem.product.price} $</td>
-                    <td className="py-3">{cartItem.product.price*cartItem.qty} $</td>
+                    <td className="py-3">{(cartItem.product as Product & Types.ObjectId).price} $</td>
+                    <td className="py-3">{(cartItem.product as Product & Types.ObjectId).price*cartItem.qty} $</td>
                   </tr>
                   
           ))}

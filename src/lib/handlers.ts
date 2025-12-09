@@ -142,7 +142,7 @@ export async function getUserCart(
   if (!user) {
     return null;
   }
-
+  
   return {
     cartItems: user.cartItems // populated products
   };
@@ -283,7 +283,7 @@ export async function createOrder(
 
   // Transform cart items to order items (with price snapshot)
   const orderItems = user.cartItems.map((cartItem) => {
-    const product = cartItem.product as any; // populated
+    const product = cartItem.product as Types.ObjectId & Product; // populated
     return {
       product: product._id,
       qty: cartItem.qty,

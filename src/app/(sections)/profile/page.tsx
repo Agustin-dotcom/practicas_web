@@ -5,6 +5,7 @@ import { getUserOrders } from '@/lib/handlers'
 import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
 import Link from 'next/link'
+import { Order } from '@/models/Order'
 export default async function Ticket() {
   const session = await getSession()
     if (!session) {
@@ -16,6 +17,7 @@ export default async function Ticket() {
     //}
     const userOrders=await getUserOrders(session.userId)
     const user = await Users.findById(session.userId)
+    
   return (
     
         <div>
@@ -30,7 +32,7 @@ export default async function Ticket() {
           Full Name:
         </div>
         <div>
-          {user.name} {user.surname}
+          {user!.name} {user!.surname}
         </div>
       </div>
 
@@ -86,20 +88,20 @@ export default async function Ticket() {
               </thead>
               <tbody>
                 {userOrders!.orders.map((userOrder) => (
-                  <tr key = {userOrder._id.toString()} className="border-b border-gray-100">
+                  <tr key = {(userOrder as Order & Types.ObjectId)._id.toString()} className="border-b border-gray-100">
                     <td className="py-3">
                       <Link href={`/orders/${userOrder._id.toString()}`}>
-                        {userOrder._id}
+                        {(userOrder as Order & Types.ObjectId)._id.toString()}
                       </Link>  
                     </td>
-                    <td className="py-3">{userOrder.address}</td>
+                    <td className="py-3">{(userOrder as Order & Types.ObjectId).address}</td>
                     <td className="py-3">
                       <div>
                         <div>
-                          {userOrder.cardHolder}
+                          {(userOrder as Order & Types.ObjectId).cardHolder}
                         </div>
                         <div className="text-gray-400">
-                          {userOrder.cardNumber}
+                          {(userOrder as Order & Types.ObjectId).cardNumber}
                         </div>
                       </div>
                       </td>
