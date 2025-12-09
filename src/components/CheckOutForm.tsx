@@ -44,7 +44,7 @@ export default function CheckOutForm({
       }),
     })
     const data = await res.json()
-    console.log(res.ok)
+    
     if (res.ok) {
       setError('')
       // Redirige usando el orderId de la respuesta
@@ -94,6 +94,7 @@ export default function CheckOutForm({
               name="cardHolder"
               placeholder="John Doe"
               required
+              pattern='.* .*'
               className="peer mt-1 w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-500"
               value={formValues.cardHolder}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -114,7 +115,8 @@ export default function CheckOutForm({
             <input
               type="text"
               name="cardNumber"
-              placeholder="1234 5678 9012 3456"
+              placeholder="1234"
+              pattern='^[0-9]{4}$'
               required
               className="peer mt-1 w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-500"
               value={formValues.cardNumber}
