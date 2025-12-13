@@ -24,7 +24,8 @@ export default async function Product_({
   }
   const cartItemsData = await getUserCart(session?.userId)
   let qty = 0
-  const specificProductWeWant = cartItemsData?.cartItems.find(cartItem=>(cartItem.product as Product & Types.ObjectId)._id==product._id)
+  const specificProductWeWant = cartItemsData?.cartItems.find(cartItem=>(cartItem.product as Product & Types.ObjectId)._id.toString()==product._id.toString())
+  
   if(specificProductWeWant)
   {
     qty = specificProductWeWant.qty
