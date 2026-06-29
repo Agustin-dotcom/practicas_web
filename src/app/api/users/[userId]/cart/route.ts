@@ -1,5 +1,8 @@
 import { Types } from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 import { ErrorResponse, getUserCart, GetCartResponse } from '@/lib/handlers';
 import { getSession } from '@/lib/auth'
 export async function GET(
